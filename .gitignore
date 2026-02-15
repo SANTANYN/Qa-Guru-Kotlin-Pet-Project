@@ -1,7 +1,17 @@
 # Kotlin / Gradle
 .kotlin/
-.idea/
 .gradle/
 build/
 out/
 logs/
+
+# IDE
+.idea/
+*.iml
+
+# Allure
+allure-results/
+allure-report/
+
+# OS
+.DS_Store
