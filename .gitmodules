@@ -1,0 +1,6 @@
+[submodule "src/main/backend"]
+	path = src/main/backend
+	url = https://github.com/romsper/testing-playground-backend.git
+[submodule "src/main/web"]
+	path = src/main/web
+	url = https://github.com/romsper/testing-playground-frontend.git

@@ -1,0 +1,7 @@
+# Kotlin / Gradle
+.kotlin/
+.idea/
+.gradle/
+build/
+out/
+logs/
