@@ -1,6 +1,7 @@
 package frontend.extensions
 
 import com.codeborne.selenide.Condition
+import com.codeborne.selenide.WebElementCondition
 import com.codeborne.selenide.ElementsCollection
 import com.codeborne.selenide.SelenideElement
 
@@ -16,6 +17,20 @@ fun ElementsCollection.findByTestIdOrFail(testId: String): SelenideElement {
                 "Доступно элементов: ${size()}. " +
                 "Проверьте, что элемент отображается на странице."
         )
+    }
+    return filtered.get(0)
+}
+
+/**
+ * Ищет элемент в коллекции по заданному условию.
+ * Если элемент не найден — падает с понятным сообщением и опциональным кастомным текстом.
+ */
+fun ElementsCollection.findByOrFail(condition: WebElementCondition, customMessage: String? = null): SelenideElement {
+    val filtered = filterBy(condition)
+    if (filtered.size() == 0) {
+        val baseMessage = "Элемент по условию '$condition' не найден в коллекции. Доступно элементов: ${size()}."
+        val finalMessage = if (customMessage != null) "$customMessage\n$baseMessage" else baseMessage
+        throw AssertionError(finalMessage)
     }
     return filtered.get(0)
 }

@@ -4,6 +4,7 @@ import com.codeborne.selenide.Condition.text
 import com.codeborne.selenide.Selenide.`$$`
 import com.codeborne.selenide.Selenide.`$`
 import com.codeborne.selenide.SelenideElement
+import frontend.extensions.findByOrFail
 
 /**
  * Контейнер для карточек товаров.
@@ -21,7 +22,10 @@ class ProductsContainerComponent {
     }
 
     fun getCardByName(productName: String): ProductCardComponent {
-        val element = cardsCollection.findBy(text(productName))
+        val element = cardsCollection.findByOrFail(
+            text(productName),
+            "Карточка товара с именем '$productName' не найдена в контейнере!"
+        )
         return ProductCardComponent(element)
     }
 

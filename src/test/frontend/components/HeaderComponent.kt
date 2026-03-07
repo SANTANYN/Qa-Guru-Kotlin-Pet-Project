@@ -3,6 +3,7 @@ package frontend.components
 import com.codeborne.selenide.Condition.text
 import com.codeborne.selenide.Selenide.`$`
 import com.codeborne.selenide.Selenide.`$$`
+import frontend.extensions.findByOrFail
 
 /**
  * Компонент навигационной шапки.
@@ -25,7 +26,7 @@ class HeaderComponent {
     }
 
     fun clickLink(linkName: String) {
-        linksHeader.findBy(text(linkName)).click()
+        linksHeader.findByOrFail(text(linkName), "Ссылка навигации '$linkName' не найдена в хедере!").click()
     }
 
     fun clickCart() {
