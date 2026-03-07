@@ -13,7 +13,7 @@ import frontend.extensions.findByOrFail
 class ProductsContainerComponent {
 
     private val container = `$`(".products-container")
-    private val cardsCollection = container.`$$`("[data-test-group=\"product-card\"]")
+    private val cardsCollection = container.`$$`(frontend.helpers.Wrappers.byDataTestGroup("product-card"))
 
     fun getCardsCollection() = cardsCollection
 

@@ -1,10 +1,11 @@
 package frontend
 
+import frontend.helpers.BaseUiTest
 import frontend.pages.HomeViewPage
 import frontend.pages.ProductsPage
 import org.junit.jupiter.api.Test
 
-class HomeViewTest {
+class HomeViewTest : BaseUiTest() {
 
     private val homePage = HomeViewPage()
     private val productsPage = ProductsPage()
@@ -12,13 +13,13 @@ class HomeViewTest {
     @Test
     fun `should display popular products title`() {
         homePage
-            .openPage()
+            // Removed repeated openPage() because BaseUiTest handles it
             .checkPopularProductsTitleText("Popular Products (first 4 products \uD83E\uDD23)")
     }
 
     @Test
     fun `should display popular products list correctly`() {
-        homePage.openPage()
+        // Removed repeated openPage()
 
         // Verify there are exactly 4 products initially loaded
         homePage.checkProductsCount(4)
@@ -32,7 +33,6 @@ class HomeViewTest {
     @Test
     fun `should display main image and welcome text on home page`() {
         homePage
-            .openPage()
             .checkMainImageVisible()
             .checkMainImageText("Welcome to Brew & Bean")
     }
@@ -40,7 +40,6 @@ class HomeViewTest {
     @Test
     fun `should navigate to Products page via header link`() {
         homePage
-            .openPage()
             .clickProductsLink()
         productsPage.checkProductsTitleText("All Products")
     }

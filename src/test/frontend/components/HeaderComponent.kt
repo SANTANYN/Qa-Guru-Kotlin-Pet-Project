@@ -4,6 +4,8 @@ import com.codeborne.selenide.Condition.text
 import com.codeborne.selenide.Selenide.`$`
 import com.codeborne.selenide.Selenide.`$$`
 import frontend.extensions.findByOrFail
+import frontend.helpers.Wrappers.Companion.byDataTestGroup
+import frontend.helpers.Wrappers.Companion.byDataTestId
 
 /**
  * Компонент навигационной шапки.
@@ -11,11 +13,11 @@ import frontend.extensions.findByOrFail
  */
 class HeaderComponent {
 
-    private val logoLink = `$`("[data-test-id=\"nav-link-home\"]")
+    private val logoLink = `$`(byDataTestId("nav-link-home"))
     private val titleText = `$`(".header .title") // "Brew & Bean"
-    private val linksHeader = `$$`("[data-test-group=\"nav-link\"]")
-    private val cartButton = `$`("[data-test-id=\"nav-link-cart\"]")
-    private val joinButton = `$`("[data-test-id=\"nav-link-auth\"]")
+    private val linksHeader = `$$`(byDataTestGroup("nav-link"))
+    private val cartButton = `$`(byDataTestId("nav-link-cart"))
+    private val joinButton = `$`(byDataTestId("nav-link-auth"))
 
     fun checkTitleText(expectedText: String) {
         titleText.shouldHave(text(expectedText))
