@@ -4,6 +4,7 @@ import com.codeborne.selenide.Condition
 import com.codeborne.selenide.Condition.text
 import com.codeborne.selenide.Selenide.`$`
 import frontend.helpers.Wrappers.Companion.byDataTestId
+import io.qameta.allure.Step
 
 /**
  * Компонент диалога создания аккаунта.
@@ -18,6 +19,7 @@ class CreateUserDialogComponent {
     private val errorText = container.`$`(byDataTestId("create-error"))
     private val loginLink = container.`$`(byDataTestId("create-login"))
 
+    @Step("Создать пользователя: username={username}, email={email}")
     fun createUser(username: String, email: String, password: String): CreateUserDialogComponent {
         usernameInput.sendKeys(username)
         emailInput.sendKeys(email)
@@ -26,11 +28,13 @@ class CreateUserDialogComponent {
         return this
     }
 
+    @Step("Нажать на ссылку перехода к логину")
     fun clickLoginLink(): LoginDialogComponent {
         loginLink.click()
         return LoginDialogComponent()
     }
 
+    @Step("Проверить наличие ошибки: {expectedError}")
     fun shouldHaveError(expectedError: String) {
         errorText.shouldHave(text(expectedError))
     }

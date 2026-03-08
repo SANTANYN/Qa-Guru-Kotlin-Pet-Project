@@ -19,8 +19,8 @@ open class BaseUiTest {
     }
 
     @BeforeEach
-    fun openBrowser() {
-        open("/")
+    fun setup() {
+        // No automatic page opening to keep steps explicit in tests
     }
 
     @AfterEach

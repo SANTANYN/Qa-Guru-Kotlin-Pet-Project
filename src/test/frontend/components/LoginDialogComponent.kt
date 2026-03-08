@@ -4,6 +4,7 @@ import com.codeborne.selenide.Condition
 import com.codeborne.selenide.Condition.text
 import com.codeborne.selenide.Selenide.`$`
 import frontend.helpers.Wrappers.Companion.byDataTestId
+import io.qameta.allure.Step
 
 /**
  * Компонент диалога логина.
@@ -16,6 +17,7 @@ class LoginDialogComponent {
     private val submitButton = container.`$`(byDataTestId("login-submit"))
     private val errorText = container.`$`(byDataTestId("login-error"))
 
+    @Step("Залогиниться с email={email}")
     fun login(email: String, password: String): LoginDialogComponent {
         if (email.isNotEmpty()) emailInput.sendKeys(email)
         if (password.isNotEmpty()) passwordInput.sendKeys(password)
@@ -23,6 +25,7 @@ class LoginDialogComponent {
         return this
     }
 
+    @Step("Проверить наличие ошибки: {expectedError}")
     fun shouldHaveError(expectedError: String) {
         errorText.shouldHave(text(expectedError))
     }

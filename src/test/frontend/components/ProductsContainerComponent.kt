@@ -5,6 +5,7 @@ import com.codeborne.selenide.Selenide.`$$`
 import com.codeborne.selenide.Selenide.`$`
 import com.codeborne.selenide.SelenideElement
 import frontend.extensions.findByOrFail
+import io.qameta.allure.Step
 
 /**
  * Контейнер для карточек товаров.
@@ -21,6 +22,7 @@ class ProductsContainerComponent {
         return cardsCollection.map { ProductCardComponent(it) }
     }
 
+    @Step("Найти карточку товара по имени: {productName}")
     fun getCardByName(productName: String): ProductCardComponent {
         val element = cardsCollection.findByOrFail(
             text(productName),
@@ -29,6 +31,7 @@ class ProductsContainerComponent {
         return ProductCardComponent(element)
     }
 
+    @Step("Найти карточку товара по индексу: {index}")
     fun getCardByIndex(index: Int): ProductCardComponent {
         return ProductCardComponent(cardsCollection[index])
     }

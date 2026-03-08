@@ -2,6 +2,7 @@ package frontend.components
 
 import com.codeborne.selenide.Condition.text
 import com.codeborne.selenide.SelenideElement
+import io.qameta.allure.Step
 
 /**
  * Важный принцип: мы принимаем в конструкторе корневой элемент карточки товара.
@@ -22,18 +23,22 @@ class ProductCardComponent(private val root: SelenideElement) {
     fun getDescriptionText(): String = description.text
     fun getQuantityText(): String = qty.text
 
+    @Step("Проверить имя товара: {expectedName}")
     fun checkName(expectedName: String) {
         name.shouldHave(text(expectedName))
     }
 
+    @Step("Проверить цену товара: {expectedPrice}")
     fun checkPrice(expectedPrice: String) {
         price.shouldHave(text(expectedPrice))
     }
 
+    @Step("Увеличить количество")
     fun clickIncrement() {
         incrementBtn.click()
     }
 
+    @Step("Уменьшить количество")
     fun clickDecrement() {
         decrementBtn.click()
     }
