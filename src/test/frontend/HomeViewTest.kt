@@ -44,6 +44,21 @@ class HomeViewTest : BaseUiTest() {
 
     @Test
     @Story("Main elements visibility")
+    @DisplayName("Should display popular products list using data-centric model")
+    fun `should display popular products list correctly using data items`() {
+        homePage.openPage()
+
+        val items = homePage.getProductItems().getItems()
+        
+        // Check first product details from data object
+        val espresso = items[0]
+        assert(espresso.name == "Espresso")
+        assert(espresso.price == 2.5f)
+        assert(espresso.quantity >= 0)
+    }
+
+    @Test
+    @Story("Main elements visibility")
     @DisplayName("Should display main image and welcome text")
     fun `should display main image and welcome text on home page`() {
         homePage
