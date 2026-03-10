@@ -11,15 +11,7 @@ open class BaseUiTest {
     companion object {
         init {
             Configuration.browser = DriverProvider::class.java.name
-
-            // Для удаленного запуска (Selenoid) используем host.docker.internal,
-            // для локального — localhost
-            Configuration.baseUrl = if (DriverProvider.isRemote()) {
-                System.getProperty("selenide.baseUrl", "http://host.docker.internal:4000")
-            } else {
-                System.getProperty("selenide.baseUrl", "http://localhost:4000")
-            }
-
+            Configuration.baseUrl = System.getProperty("selenide.baseUrl", "http://localhost:4000")
             Configuration.timeout = 15_000
             Configuration.pageLoadStrategy = "normal"
             Configuration.reopenBrowserOnFail = true
@@ -27,8 +19,8 @@ open class BaseUiTest {
     }
 
     @BeforeEach
-    fun openBrowser() {
-        open("/")
+    fun setup() {
+        // No automatic page opening to keep steps explicit in tests
     }
 
     @AfterEach

@@ -6,55 +6,57 @@ import frontend.components.HeaderComponent
 import frontend.components.MainImageComponent
 import frontend.components.ProductsContainerComponent
 import frontend.components.PopularProductsTitleComponent
-import frontend.components.ProductItems
+import frontend.components.PopularItem
+import frontend.components.PopularItems
 import io.qameta.allure.Step
 
-class HomeViewPage {
+class MainPage {
 
     private val header = HeaderComponent()
     private val mainImage = MainImageComponent()
     private val productsContainer = ProductsContainerComponent()
     private val popularProductsTitle = PopularProductsTitleComponent()
-    private val productItems = ProductItems()
+    private val popularItems = PopularItems()
 
     @Step("Открыть главную страницу")
-    fun openPage(): HomeViewPage {
+    fun openPage(): MainPage {
         open("/")
         return this
     }
 
     @Step("Проверить заголовок популярных товаров: {expectedText}")
-    fun checkPopularProductsTitleText(expectedText: String): HomeViewPage {
+    fun checkPopularProductsTitleText(expectedText: String): MainPage {
         popularProductsTitle.checkText(expectedText)
         return this
     }
 
     @Step("Проверить количество товаров: {expectedSize}")
-    fun checkProductsCount(expectedSize: Int): HomeViewPage {
+    fun checkProductsCount(expectedSize: Int): MainPage {
         productsContainer.getCardsCollection().shouldHave(CollectionCondition.size(expectedSize))
         return this
     }
 
     @Step("Проверить видимость главного изображения")
-    fun checkMainImageVisible(): HomeViewPage {
+    fun checkMainImageVisible(): MainPage {
         mainImage.shouldBeVisible()
         return this
     }
 
     @Step("Проверить текст на главном изображении: {expectedText}")
-    fun checkMainImageText(expectedText: String): HomeViewPage {
+    fun checkMainImageText(expectedText: String): MainPage {
         mainImage.shouldHaveText(expectedText)
         return this
     }
 
     fun header(): HeaderComponent = header
-    
+
     fun products(): ProductsContainerComponent = productsContainer
 
-    fun getProductItems(): ProductItems = productItems
+    @Step("Получить список популярных товаров")
+    fun getPopularProducts(): List<PopularItem> = popularItems.getItems()
 
     @Step("Нажать на ссылку Products в хедере")
-    fun clickProductsLink(): HomeViewPage {
+    fun clickProductsLink(): MainPage {
         header.clickLink("Products")
         return this
     }
