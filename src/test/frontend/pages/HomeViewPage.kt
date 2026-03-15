@@ -4,9 +4,9 @@ import com.codeborne.selenide.CollectionCondition
 import com.codeborne.selenide.Selenide.open
 import frontend.components.HeaderComponent
 import frontend.components.MainImageComponent
-import frontend.components.ProductsContainerComponent
+import frontend.components.list.ProductsContainerComponent
 import frontend.components.PopularProductsTitleComponent
-import frontend.components.PopularItems
+import frontend.components.list.ProductItemsList
 import io.qameta.allure.Step
 
 class HomeViewPage {
@@ -15,7 +15,7 @@ class HomeViewPage {
     private val mainImage = MainImageComponent()
     private val productsContainer = ProductsContainerComponent()
     private val popularProductsTitle = PopularProductsTitleComponent()
-    private val popularItems = PopularItems()
+    private val popularItems = ProductItemsList()
 
     @Step("Открыть главную страницу")
     fun openPage(): HomeViewPage {
@@ -51,7 +51,7 @@ class HomeViewPage {
     
     fun products(): ProductsContainerComponent = productsContainer
 
-    fun getPopularItems(): PopularItems = popularItems
+    fun getPopularItems(): ProductItemsList = popularItems
 
     @Step("Нажать на ссылку Products в хедере")
     fun clickProductsLink(): HomeViewPage {

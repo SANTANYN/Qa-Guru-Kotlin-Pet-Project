@@ -3,7 +3,8 @@ package frontend.components
 import com.codeborne.selenide.Condition.text
 import com.codeborne.selenide.Selenide.`$`
 import com.codeborne.selenide.Selenide.`$$`
-import frontend.extensions.findByOrFail
+import frontend.components.popup.LoginPopup
+import frontend.helpers.findByOrFail
 import frontend.helpers.Wrappers.Companion.byDataTestGroup
 import frontend.helpers.Wrappers.Companion.byDataTestId
 import io.qameta.allure.Step
@@ -43,7 +44,8 @@ class HeaderComponent {
     }
 
     @Step("Нажать на кнопку Join")
-    fun clickJoin() {
+    fun clickJoin(): LoginPopup {
         joinButton.click()
+        return LoginPopup()
     }
 }

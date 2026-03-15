@@ -1,10 +1,10 @@
-package frontend.components
+package frontend.components.list
 
 import com.codeborne.selenide.Condition.text
 import com.codeborne.selenide.Selenide.`$$`
 import com.codeborne.selenide.Selenide.`$`
 import com.codeborne.selenide.SelenideElement
-import frontend.extensions.findByOrFail
+import frontend.helpers.findByOrFail
 import io.qameta.allure.Step
 
 /**

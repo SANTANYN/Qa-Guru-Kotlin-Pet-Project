@@ -1,4 +1,4 @@
-package frontend.components
+package frontend.components.popup
 
 import com.codeborne.selenide.Condition
 import com.codeborne.selenide.Condition.text
@@ -9,7 +9,7 @@ import io.qameta.allure.Step
 /**
  * Компонент диалога создания аккаунта.
  */
-class CreateUserDialogComponent {
+class CreateUserPopup {
 
     private val usernameInput = `$`(byDataTestId("create-username"))
     private val emailInput = `$`(byDataTestId("create-email"))
@@ -19,7 +19,7 @@ class CreateUserDialogComponent {
     private val loginLink = `$`(byDataTestId("create-login"))
 
     @Step("Создать пользователя: username={username}, email={email}")
-    fun createUser(username: String, email: String, password: String): CreateUserDialogComponent {
+    fun createUser(username: String, email: String, password: String): CreateUserPopup {
         usernameInput.value = username
         emailInput.value = email
         passwordInput.value = password
@@ -28,9 +28,9 @@ class CreateUserDialogComponent {
     }
 
     @Step("Нажать на ссылку перехода к логину")
-    fun clickLoginLink(): LoginDialogComponent {
+    fun clickLoginLink(): LoginPopup {
         loginLink.click()
-        return LoginDialogComponent()
+        return LoginPopup()
     }
 
     @Step("Проверить наличие ошибки: {expectedError}")

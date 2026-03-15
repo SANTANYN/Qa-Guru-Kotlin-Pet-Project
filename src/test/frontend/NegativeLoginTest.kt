@@ -1,6 +1,6 @@
 package frontend
 
-import frontend.components.CreateUserDialogComponent
+import frontend.components.popup.CreateUserPopup
 import frontend.helpers.BaseUiTest
 import frontend.pages.HomeViewPage
 import io.qameta.allure.Epic
@@ -32,7 +32,7 @@ class NegativeLoginTest : BaseUiTest() {
             .openPage()
             .header().clickJoin()
         
-        CreateUserDialogComponent()
+        CreateUserPopup()
             .clickLoginLink()
             .login(email ?: "", password ?: "")
             .shouldHaveError(expectedError)

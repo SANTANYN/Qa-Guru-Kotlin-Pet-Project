@@ -8,13 +8,13 @@ class ProductsPage {
 
     private val productsTitle = `$`("[data-test-id=\"products-title\"]")
 
-    private val productsItems = frontend.components.ProductsItems()
+    private val productsItems = frontend.components.list.ProductItemsList()
 
     @Step("Получить заголовок страницы товаров")
     fun getTitle(): String = productsTitle.text()
 
     @Step("Получить список товаров на странице Products")
-    fun getProductsItems(): List<frontend.components.ProductsItem> = productsItems.getItems()
+    fun getProductsItems(): List<frontend.components.list.ProductItem> = productsItems.getItems()
 
     @Step("Открыть страницу товаров")
     fun openPage(): ProductsPage {

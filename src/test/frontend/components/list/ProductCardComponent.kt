@@ -1,4 +1,4 @@
-package frontend.components
+package frontend.components.list
 
 import com.codeborne.selenide.Condition.text
 import com.codeborne.selenide.SelenideElement

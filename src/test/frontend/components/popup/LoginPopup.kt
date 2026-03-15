@@ -1,4 +1,4 @@
-package frontend.components
+package frontend.components.popup
 
 import com.codeborne.selenide.Condition
 import com.codeborne.selenide.Condition.text
@@ -9,7 +9,7 @@ import io.qameta.allure.Step
 /**
  * Компонент диалога логина.
  */
-class LoginDialogComponent {
+class LoginPopup {
 
     private val emailInput = `$`(byDataTestId("login-email"))
     private val passwordInput = `$`(byDataTestId("login-password"))
@@ -17,7 +17,7 @@ class LoginDialogComponent {
     private val errorText = `$`(byDataTestId("login-error"))
 
     @Step("Залогиниться с email={email}")
-    fun login(email: String, password: String): LoginDialogComponent {
+    fun login(email: String, password: String): LoginPopup {
         if (email.isNotEmpty()) emailInput.value = email
         if (password.isNotEmpty()) passwordInput.value = password
         submitButton.click()

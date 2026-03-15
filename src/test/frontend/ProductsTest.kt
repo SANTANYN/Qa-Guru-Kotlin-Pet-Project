@@ -1,10 +1,11 @@
 package frontend
 
-import frontend.components.PopularItem
+import frontend.components.list.ProductItem
 import frontend.helpers.BaseUiTest
 import frontend.pages.MainPage
 import frontend.pages.ProductsPage
-import io.kotest.matchers.equality.shouldBeEqualToDifferentTypeIgnoringFields
+import io.kotest.matchers.collections.shouldContainAll
+import io.kotest.matchers.equals.shouldBeEqual
 import io.kotest.matchers.shouldBe
 import io.qameta.allure.Epic
 import io.qameta.allure.Feature
@@ -48,11 +49,37 @@ class ProductsTest : BaseUiTest() {
         val firstProductsItem = ProductsPage()
             .getProductsItems()[0]
 
-        firstPopularProduct.shouldBeEqualToDifferentTypeIgnoringFields(
-            firstProductsItem,
-            PopularItem::image,
-            PopularItem::btnIncrement,
-            PopularItem::btnDecrement,
-        )
+        // Стандартные проверки равенства данных (через объекты Kotest благодаря переопределенному equals)
+        firstProductsItem shouldBeEqual firstPopularProduct
+
+        // Дополнительная проверка, что все связанные веб-элементы присутствуют и отображаются
+        firstProductsItem.image.isDisplayed shouldBe true
+        firstProductsItem.btnIncrement.isDisplayed shouldBe true
+        firstProductsItem.btnDecrement.isDisplayed shouldBe true
+    }
+
+    @Test
+    @Story("Products comparison")
+    @DisplayName("Проверка что все популярные продукты присутствуют на странице Products")
+    fun testAllPopularProductsPresentOnProductsPage() {
+        // Получаем все популярные товары с главной страницы
+        val popularProducts = MainPage()
+            .openPage()
+            .getPopularProducts()
+
+        // Переходим на страницу всех товаров
+        MainPage()
+            .header()
+            .clickLink("Products")
+        
+        // Убеждаемся, что мы на правильной странице
+        ProductsPage().getTitle() shouldBe "All Products"
+
+        // Получаем все товары со страницы Products
+        val allProducts = ProductsPage().getProductsItems()
+
+        // Проверяем что для каждого популярного товара найдется точная копия
+        // Благодаря переопределенному equals в ProductItem мы можем использовать shouldContainAll
+        allProducts shouldContainAll popularProducts
     }
 }

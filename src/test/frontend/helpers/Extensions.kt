@@ -1,9 +1,16 @@
-package frontend.extensions
+package frontend.helpers
 
 import com.codeborne.selenide.Condition
 import com.codeborne.selenide.WebElementCondition
 import com.codeborne.selenide.ElementsCollection
 import com.codeborne.selenide.SelenideElement
+
+/**
+ * Парсит строку с ценой (например "$2.5") в Float.
+ * Убирает все символы кроме цифр и точки.
+ */
+fun String.toPrice(): Float =
+    this.filter { it.isDigit() || it == '.' }.toFloat()
 
 /**
  * Ищет элемент в коллекции по data-test-id.
