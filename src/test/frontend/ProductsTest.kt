@@ -78,8 +78,7 @@ class ProductsTest : BaseUiTest() {
         // Получаем все товары со страницы Products
         val allProducts = ProductsPage().getProductsItems()
 
-        // Проверяем что для каждого популярного товара найдется точная копия
-        // Благодаря переопределенному equals в ProductItem мы можем использовать shouldContainAll
+        // Проверяем что для каждого популярного товара найдется точная копия на странице продуктов
         allProducts shouldContainAll popularProducts
     }
 }
