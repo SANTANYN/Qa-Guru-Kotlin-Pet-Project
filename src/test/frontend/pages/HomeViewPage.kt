@@ -6,7 +6,7 @@ import frontend.components.HeaderComponent
 import frontend.components.MainImageComponent
 import frontend.components.ProductsContainerComponent
 import frontend.components.PopularProductsTitleComponent
-import frontend.components.ProductItems
+import frontend.components.PopularItems
 import io.qameta.allure.Step
 
 class HomeViewPage {
@@ -15,7 +15,7 @@ class HomeViewPage {
     private val mainImage = MainImageComponent()
     private val productsContainer = ProductsContainerComponent()
     private val popularProductsTitle = PopularProductsTitleComponent()
-    private val productItems = ProductItems()
+    private val popularItems = PopularItems()
 
     @Step("Открыть главную страницу")
     fun openPage(): HomeViewPage {
@@ -51,7 +51,7 @@ class HomeViewPage {
     
     fun products(): ProductsContainerComponent = productsContainer
 
-    fun getProductItems(): ProductItems = productItems
+    fun getPopularItems(): PopularItems = popularItems
 
     @Step("Нажать на ссылку Products в хедере")
     fun clickProductsLink(): HomeViewPage {

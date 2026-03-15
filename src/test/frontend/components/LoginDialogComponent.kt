@@ -11,16 +11,15 @@ import io.qameta.allure.Step
  */
 class LoginDialogComponent {
 
-    private val container = `$`(".dialog").shouldBe(Condition.visible)
-    private val emailInput = container.`$`(byDataTestId("login-email"))
-    private val passwordInput = container.`$`(byDataTestId("login-password"))
-    private val submitButton = container.`$`(byDataTestId("login-submit"))
-    private val errorText = container.`$`(byDataTestId("login-error"))
+    private val emailInput = `$`(byDataTestId("login-email"))
+    private val passwordInput = `$`(byDataTestId("login-password"))
+    private val submitButton = `$`(byDataTestId("login-submit"))
+    private val errorText = `$`(byDataTestId("login-error"))
 
     @Step("Залогиниться с email={email}")
     fun login(email: String, password: String): LoginDialogComponent {
-        if (email.isNotEmpty()) emailInput.sendKeys(email)
-        if (password.isNotEmpty()) passwordInput.sendKeys(password)
+        if (email.isNotEmpty()) emailInput.value = email
+        if (password.isNotEmpty()) passwordInput.value = password
         submitButton.click()
         return this
     }

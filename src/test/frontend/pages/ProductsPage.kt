@@ -8,6 +8,14 @@ class ProductsPage {
 
     private val productsTitle = `$`("[data-test-id=\"products-title\"]")
 
+    private val productsItems = frontend.components.ProductsItems()
+
+    @Step("Получить заголовок страницы товаров")
+    fun getTitle(): String = productsTitle.text()
+
+    @Step("Получить список товаров на странице Products")
+    fun getProductsItems(): List<frontend.components.ProductsItem> = productsItems.getItems()
+
     @Step("Открыть страницу товаров")
     fun openPage(): ProductsPage {
         com.codeborne.selenide.Selenide.open("/products")

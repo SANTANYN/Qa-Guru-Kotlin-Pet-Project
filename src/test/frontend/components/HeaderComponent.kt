@@ -35,6 +35,8 @@ class HeaderComponent {
         linksHeader.findByOrFail(text(linkName), "Ссылка навигации '$linkName' не найдена в хедере!").click()
     }
 
+    fun getLinksTexts(): List<String> = linksHeader.texts()
+
     @Step("Нажать на кнопку корзины")
     fun clickCart() {
         cartButton.click()

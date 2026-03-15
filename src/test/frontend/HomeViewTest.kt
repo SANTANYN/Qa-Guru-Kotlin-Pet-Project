@@ -48,7 +48,7 @@ class HomeViewTest : BaseUiTest() {
     fun `should display popular products list correctly using data items`() {
         homePage.openPage()
 
-        val items = homePage.getProductItems().getItems()
+        val items = homePage.getPopularItems().getItems()
         
         // Check first product details from data object
         val espresso = items[0]
