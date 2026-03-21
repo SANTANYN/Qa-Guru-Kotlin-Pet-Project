@@ -49,8 +49,6 @@ class ProductItemsList {
 
     @Step("Получить список товаров")
     fun getItems(): List<ProductItem> {
-        listProducts.shouldHave(CollectionCondition.sizeGreaterThan(0))
-
         return listProducts.map { card ->
             ProductItem(
                 image = card.`$`(byDataTestGroup("product-card-image")),

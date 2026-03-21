@@ -11,8 +11,6 @@ class PopularProductsTitleComponent {
 
     private val titleElement = `$$`(".title").findBy(text("Popular Products"))
 
-    @Step("Проверить текст заголовка популярных товаров: {expectedText}")
-    fun checkText(expectedText: String) {
-        titleElement.shouldHave(text(expectedText))
-    }
+    @Step("Получить текст заголовка популярных товаров")
+    fun getText(): String = titleElement.text()
 }

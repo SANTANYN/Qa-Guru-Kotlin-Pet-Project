@@ -13,13 +13,9 @@ class MainImageComponent {
     private val mainImage = `$`("[data-test-id=\"main-image\"]")
     private val mainImageText = `$`("[data-test-id=\"main-image-text\"]")
 
-    @Step("Проверить видимость главного изображения")
-    fun shouldBeVisible() {
-        mainImage.shouldBe(Condition.visible)
-    }
+    @Step("Получить элемент главного изображения")
+    fun getElement() = mainImage
 
-    @Step("Проверить текст на главном изображении: {expectedText}")
-    fun shouldHaveText(expectedText: String) {
-        mainImageText.shouldHave(text(expectedText))
-    }
+    @Step("Получить текст на главном изображении")
+    fun getText(): String = mainImageText.text()
 }

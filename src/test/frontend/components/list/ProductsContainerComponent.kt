@@ -24,10 +24,7 @@ class ProductsContainerComponent {
 
     @Step("Найти карточку товара по имени: {productName}")
     fun getCardByName(productName: String): ProductCardComponent {
-        val element = cardsCollection.findByOrFail(
-            text(productName),
-            "Карточка товара с именем '$productName' не найдена в контейнере!"
-        )
+        val element = cardsCollection.find(text(productName))
         return ProductCardComponent(element)
     }
 

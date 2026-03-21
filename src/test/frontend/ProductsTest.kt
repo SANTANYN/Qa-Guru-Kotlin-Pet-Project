@@ -27,8 +27,7 @@ class ProductsTest : BaseUiTest() {
             .openPage()
             .header().clickLink("Products")
 
-        val title = ProductsPage().getTitle()
-        title shouldBe "All Products"
+        ProductsPage().getTitle() shouldBe "All Products"
     }
 
     @Test
@@ -39,15 +38,14 @@ class ProductsTest : BaseUiTest() {
             .openPage()
             .getPopularProducts()[0]
 
+        val productsPage = ProductsPage()
         MainPage()
             .header()
             .clickLink("Products")
 
-        val txtTitle = ProductsPage().getTitle()
-        txtTitle shouldBe "All Products"
+        productsPage.getTitle() shouldBe "All Products"
 
-        val firstProductsItem = ProductsPage()
-            .getProductsItems()[0]
+        val firstProductsItem = productsPage.getProductsItems()[0]
 
         // Стандартные проверки равенства данных (через объекты Kotest благодаря переопределенному equals)
         firstProductsItem shouldBeEqual firstPopularProduct

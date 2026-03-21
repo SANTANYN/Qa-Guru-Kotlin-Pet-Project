@@ -23,15 +23,8 @@ class ProductCardComponent(private val root: SelenideElement) {
     fun getDescriptionText(): String = description.text
     fun getQuantityText(): String = qty.text
 
-    @Step("Проверить имя товара: {expectedName}")
-    fun checkName(expectedName: String) {
-        name.shouldHave(text(expectedName))
-    }
-
-    @Step("Проверить цену товара: {expectedPrice}")
-    fun checkPrice(expectedPrice: String) {
-        price.shouldHave(text(expectedPrice))
-    }
+    fun getNameElement() = name
+    fun getPriceElement() = price
 
     @Step("Увеличить количество")
     fun clickIncrement() {

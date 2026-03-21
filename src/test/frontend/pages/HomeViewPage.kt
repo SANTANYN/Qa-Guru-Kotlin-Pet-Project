@@ -7,6 +7,8 @@ import frontend.components.MainImageComponent
 import frontend.components.list.ProductsContainerComponent
 import frontend.components.PopularProductsTitleComponent
 import frontend.components.list.ProductItemsList
+import frontend.components.popup.CreateUserPopup
+import frontend.components.popup.LoginPopup
 import io.qameta.allure.Step
 
 class HomeViewPage {
@@ -23,35 +25,44 @@ class HomeViewPage {
         return this
     }
 
-    @Step("Проверить заголовок популярных товаров: {expectedText}")
-    fun checkPopularProductsTitleText(expectedText: String): HomeViewPage {
-        popularProductsTitle.checkText(expectedText)
-        return this
-    }
+    @Step("Получить заголовок популярных товаров")
+    fun getPopularProductsTitleText(): String = popularProductsTitle.getText()
 
-    @Step("Проверить количество товаров: {expectedSize}")
-    fun checkProductsCount(expectedSize: Int): HomeViewPage {
-        productsContainer.getCardsCollection().shouldHave(CollectionCondition.size(expectedSize))
-        return this
-    }
+    @Step("Получить количество товаров")
+    fun getProductsCount(): Int = productsContainer.getCardsCollection().size()
 
-    @Step("Проверить видимость главного изображения")
-    fun checkMainImageVisible(): HomeViewPage {
-        mainImage.shouldBeVisible()
-        return this
-    }
+    @Step("Получить текст на главном изображении")
+    fun getMainImageText(): String = mainImage.getElement().text() ?: ""
 
-    @Step("Проверить текст на главном изображении: {expectedText}")
-    fun checkMainImageText(expectedText: String): HomeViewPage {
-        mainImage.shouldHaveText(expectedText)
-        return this
-    }
+    fun getMainImage() = mainImage
 
     fun header(): HeaderComponent = header
-    
+
+    @Step("Нажать Join в шапке")
+    fun clickJoin(): CreateUserPopup = header.clickJoin()
+
+    /**
+     * Открывает диалог логина.
+     *
+     * В текущем UI кнопка **Join** сначала открывает регистрацию; вход — по ссылке «your account».
+     * Этот метод прячет эту цепочку, чтобы в тестах был сценарий как `openLoginForm().authPopup()...`.
+     */
+    @Step("Открыть форму логина")
+    fun openLoginForm(): HomeViewPage {
+        header.clickJoin()
+        CreateUserPopup().clickLoginLink()
+        return this
+    }
+
+    @Step("Попап авторизации")
+    fun authPopup(): LoginPopup = LoginPopup()
+
     fun products(): ProductsContainerComponent = productsContainer
 
     fun getPopularItems(): ProductItemsList = popularItems
+    
+    @Step("Получить список популярных товаров")
+    fun getPopularProducts(): List<frontend.components.list.ProductItem> = popularItems.getItems()
 
     @Step("Нажать на ссылку Products в хедере")
     fun clickProductsLink(): HomeViewPage {

@@ -33,8 +33,5 @@ class CreateUserPopup {
         return LoginPopup()
     }
 
-    @Step("Проверить наличие ошибки: {expectedError}")
-    fun shouldHaveError(expectedError: String) {
-        errorText.shouldHave(text(expectedError))
-    }
+    fun getErrorText(): String = errorText.text ?: ""
 }

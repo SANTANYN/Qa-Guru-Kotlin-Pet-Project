@@ -1,8 +1,8 @@
 package frontend
 
-import frontend.components.popup.CreateUserPopup
 import frontend.helpers.BaseUiTest
-import frontend.pages.HomeViewPage
+import frontend.pages.MainPage
+import io.kotest.matchers.shouldBe
 import io.qameta.allure.Epic
 import io.qameta.allure.Feature
 import io.qameta.allure.Owner
@@ -16,8 +16,6 @@ import org.junit.jupiter.params.provider.CsvSource
 @Owner("mikhail")
 class NegativeLoginTest : BaseUiTest() {
 
-    private val homePage = HomeViewPage()
-
     @DisplayName("Negative login validation test")
     @ParameterizedTest(name = "Email: {0}, Password: {1}, Error: {2}")
     @Story("Login validation")
@@ -28,13 +26,12 @@ class NegativeLoginTest : BaseUiTest() {
         "'wrong@email.com', 'wrongpass', 'Invalid email or password'"
     )
     fun `should show validation error on login`(email: String?, password: String?, expectedError: String) {
-        homePage
+        MainPage()
             .openPage()
-            .header().clickJoin()
-        
-        CreateUserPopup()
-            .clickLoginLink()
-            .login(email ?: "", password ?: "")
-            .shouldHaveError(expectedError)
+            .openLoginForm()
+            .authPopup()
+            .fillLoginForm(email ?: "", password ?: "")
+            .submitLogin()
+            .getErrorText(expectedError) shouldBe expectedError
     }
 }

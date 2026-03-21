@@ -22,9 +22,4 @@ class ProductsPage {
         return this
     }
 
-    @Step("Проверить заголовок страницы товаров: {expectedText}")
-    fun checkProductsTitleText(expectedText: String): ProductsPage {
-        productsTitle.shouldHave(text(expectedText))
-        return this
-    }
 }
