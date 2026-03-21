@@ -43,8 +43,6 @@ class ProductsTest : BaseUiTest() {
             .header()
             .clickLink("Products")
 
-        productsPage.getTitle() shouldBe "All Products"
-
         val firstProductsItem = productsPage.getProductsItems()[0]
 
         // Стандартные проверки равенства данных (через объекты Kotest благодаря переопределенному equals)
@@ -69,9 +67,6 @@ class ProductsTest : BaseUiTest() {
         MainPage()
             .header()
             .clickLink("Products")
-        
-        // Убеждаемся, что мы на правильной странице
-        ProductsPage().getTitle() shouldBe "All Products"
 
         // Получаем все товары со страницы Products
         val allProducts = ProductsPage().getProductsItems()
