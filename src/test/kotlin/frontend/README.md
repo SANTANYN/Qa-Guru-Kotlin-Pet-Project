@@ -6,13 +6,13 @@
 
 - **data-test-id** — уникальный идентификатор конкретного элемента или экземпляра (часто с суффиксом id сущности, например `product-card-42`). Так тесты не привязаны к классам и вёрстке: редизайн и рефакторинг стилей не ломают локаторы. Примеры в коде: навигация в `src/main/web/src/components/Header.vue`, заголовок списка в `ProductsView.vue`.
 
-- **data-test-group** — общая метка для **повторяющихся** блоков одного типа. По ней получают коллекцию (`$$`), затем фильтруют по `data-test-id`, по индексу или по условию. Примеры: карточки товаров в [`ProductItems.vue`](../../main/web/src/components/ProductItems.vue) (`product-card`, `product-card-name`, …), строки корзины в [`CartItems.vue`](../../main/web/src/components/CartItems.vue) (`cart-item`, `cart-item-qty`, …).
+- **data-test-group** — общая метка для **повторяющихся** блоков одного типа. По ней получают коллекцию (`$$`), затем фильтруют по `data-test-id`, по индексу или по условию. Примеры: карточки товаров в [`ProductItems.vue`](../../../main/web/src/components/ProductItems.vue) (`product-card`, `product-card-name`, …), строки корзины в [`CartItems.vue`](../../../main/web/src/components/CartItems.vue) (`cart-item`, `cart-item-qty`, …).
 
 В тестах обёртки: [`Wrappers.byDataTestId`](helpers/Wrappers.kt) / [`byDataTestGroup`](helpers/Wrappers.kt).
 
-## Ресурсы тестов (`src/test/frontend/resources`)
+## Ресурсы тестов (`src/test/kotlin/frontend/resources`)
 
-Тестовые ресурсы (в т.ч. `META-INF/services` для JUnit `TestExecutionListener`) лежат рядом с фронтенд-тестами. В `build.gradle` для `sourceSets.test` задано `resources.srcDirs = ["src/test/frontend/resources"]`.
+Тестовые ресурсы (в т.ч. `META-INF/services` для JUnit `TestExecutionListener`) лежат рядом с фронтенд-тестами. Корень Kotlin-тестов — `src/test/kotlin`; в `build.gradle` задано `resources.srcDirs = ["src/test/kotlin/frontend/resources"]`.
 
 ## Конфигурация тестов (properties / JSON) и `System.getProperty`
 
@@ -43,4 +43,4 @@ JSON: поля `selenideBaseUrl`, `attachScreenshotsOnFailure`, `verboseLogging`
 ## `TestExecutionListener` и `TestWatcher`
 
 - Глобальный listener: [TestListener.kt](listeners/TestListener.kt), регистрация через `META-INF/services/org.junit.platform.launcher.TestExecutionListener`. Старт каждого теста логируется всегда (`|--- Test started: …`); расширенный вывод — при `verbose.logging=true`. Скриншот в Allure при падении не делается для псевдо-теста с `displayName == "JUnit Jupiter"` (как на скрине курса); вложение — `@Attachment(value = "{name}", …)` с именем по умолчанию `SCREENSHOT`.
-- [TestWatcherExtension.kt](listeners/TestWatcherExtension.kt) — демо Jupiter `TestWatcher`; подключение `@ExtendWith(TestWatcherExtension::class)`, минимальный пример в [ConfigAndWatcherDemoTest.kt](ConfigAndWatcherDemoTest.kt) (один позитивный тест на `Config.get()` + `env_config`; при прохождении срабатывает `testSuccessful`).
+- [TestWatcherExtension.kt](listeners/TestWatcherExtension.kt) — демо Jupiter `TestWatcher`; подключение `@ExtendWith(TestWatcherExtension::class)`, минимальный пример в [PropertiesTest.kt](PropertiesTest.kt) (класс `ConfigAndWatcherDemoTest`: один позитивный тест на `Config.get()` + `env_config`; при прохождении срабатывает `testSuccessful`).

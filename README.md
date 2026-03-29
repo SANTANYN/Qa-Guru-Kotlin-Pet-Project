@@ -69,7 +69,7 @@ make down
 make test
 ```
 
-Перед прогоном поднимите сервисы, от которых зависят тесты (frontend для UI, backend для API). HTTP-тесты авторизации и создания пользователя: [src/test/backend/README.md](src/test/backend/README.md) (`./gradlew test --tests 'backend.*'` при запущенном backend на порту 1111).
+Перед прогоном поднимите сервисы, от которых зависят тесты (frontend для UI, backend для API). Все Kotlin-тесты лежат под **`src/test/kotlin/`** (пакеты `frontend.*` и `backend.*`). UI: [src/test/kotlin/frontend/README.md](src/test/kotlin/frontend/README.md). API: [src/test/kotlin/backend/README.md](src/test/kotlin/backend/README.md) (`./gradlew test --tests 'backend.*'` при запущенном backend на порту 1111).
 
 ## Команды Makefile
 

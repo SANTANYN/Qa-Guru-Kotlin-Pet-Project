@@ -1,11 +1,15 @@
 package frontend.pages
 
+import com.codeborne.selenide.CollectionCondition.sizeGreaterThan
 import com.codeborne.selenide.Condition.visible
 import com.codeborne.selenide.Selenide.`$`
+import com.codeborne.selenide.Selenide.`$$`
 import com.codeborne.selenide.Selenide.open
 import frontend.components.HeaderComponent
+import frontend.helpers.Wrappers.Companion.byDataTestGroup
 import frontend.helpers.Wrappers.Companion.byDataTestId
 import frontend.components.MainImageComponent
+import java.time.Duration
 import frontend.components.list.ProductsContainerComponent
 import frontend.components.PopularProductsTitleComponent
 import frontend.components.list.ProductItemsList
@@ -18,6 +22,7 @@ class HomeViewPage : BasePage() {
     @Step("Открыть главную страницу")
     fun openPage(): HomeViewPage {
         open("/")
+        `$$`(byDataTestGroup("product-card")).shouldHave(sizeGreaterThan(0), Duration.ofSeconds(15))
         return this
     }
 
@@ -28,7 +33,7 @@ class HomeViewPage : BasePage() {
     fun getProductsCount(): Int = ProductsContainerComponent().getCardsCollection().size()
 
     @Step("Получить текст на главном изображении")
-    fun getMainImageText(): String = MainImageComponent().getElement().text()
+    fun getMainImageText(): String = MainImageComponent().getText()
 
     fun mainImage(): MainImageComponent = MainImageComponent()
 

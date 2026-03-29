@@ -1,11 +1,13 @@
 package frontend.components.list
 
+import com.codeborne.selenide.CollectionCondition.sizeGreaterThan
 import com.codeborne.selenide.Condition.visible
 import com.codeborne.selenide.Selenide.`$$`
 import com.codeborne.selenide.SelenideElement
 import frontend.helpers.toPrice
 import frontend.helpers.Wrappers.Companion.byDataTestGroup
 import io.qameta.allure.Step
+import java.time.Duration
 
 /**
  * Data-класс для представления состояния товара.
@@ -48,11 +50,14 @@ data class ProductItem(
  */
 class ProductItemsList {
 
-    private val listProducts = `$$`(byDataTestGroup("product-card"))
+    private val cardRoot = byDataTestGroup("product-card")
 
     @Step("Получить список товаров")
     fun getItems(): List<ProductItem> {
-        return listProducts.map { card ->
+        `$$`(cardRoot).shouldHave(sizeGreaterThan(0), Duration.ofSeconds(15))
+        val count = `$$`(cardRoot).size()
+        return (0 until count).map { index ->
+            val card = `$$`(cardRoot)[index]
             ProductItem(
                 image = card.`$`(byDataTestGroup("product-card-image")),
                 name = card.`$`(byDataTestGroup("product-card-name")).text(),

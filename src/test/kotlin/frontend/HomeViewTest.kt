@@ -35,8 +35,8 @@ class HomeViewTest : BaseUiTest() {
         page.getProductsCount() shouldBe 4
 
         val firstProduct = page.products().getCardByIndex(0)
-        firstProduct.getNameText() shouldBe "Espresso"
-        firstProduct.getPriceText() shouldBe "$2.5"
+        firstProduct.getNameText() shouldBe "Coca Cola"
+        firstProduct.getPriceText() shouldBe "$2.33"
     }
 
     @Test
@@ -47,10 +47,10 @@ class HomeViewTest : BaseUiTest() {
             .openPage()
             .popularItems().getItems()
 
-        val espresso = items[0]
-        espresso.name shouldBe "Espresso"
-        espresso.price shouldBe 2.5f
-        espresso.quantity shouldBeGreaterThanOrEqual 0
+        val first = items[0]
+        first.name shouldBe "Coca Cola"
+        first.price shouldBe 2.33f
+        first.quantity shouldBeGreaterThanOrEqual 0
     }
 
     @Test

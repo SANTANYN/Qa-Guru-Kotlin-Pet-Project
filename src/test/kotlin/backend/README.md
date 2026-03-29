@@ -1,6 +1,6 @@
 # Backend API tests
 
-HTTP-тесты к Ktor API (`/api/v1/...`) через Retrofit + Gson. Пакет исходников: `backend.*` под каталогом [`backend/`](backend/).
+HTTP-тесты к Ktor API (`/api/v1/...`) через Retrofit + Gson. Исходники: каталог [`src/test/kotlin/backend/`](.) — пакет Kotlin `backend.*` (корень тестов Kotlin — `src/test/kotlin`, без дублирования имени в пути).
 
 ## Что нужно перед прогоном
 

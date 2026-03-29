@@ -1,6 +1,7 @@
 # Kotlin / Gradle
 .kotlin/
 .gradle/
+.gradle-local/
 build/
 out/
 logs/

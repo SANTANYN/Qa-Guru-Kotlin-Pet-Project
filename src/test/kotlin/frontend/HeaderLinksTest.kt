@@ -1,9 +1,12 @@
 package frontend
 
+import com.codeborne.selenide.Selenide.webdriver
+import com.codeborne.selenide.WebDriverConditions.urlContaining
 import frontend.components.HeaderComponent
 import frontend.helpers.BaseUiTest
 import frontend.pages.HomeViewPage
 import frontend.pages.ProductsPage
+import java.time.Duration
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.string.shouldContain
@@ -49,6 +52,7 @@ class HeaderLinksTest : BaseUiTest() {
             .navigateToHeader()
             .clickNavLink(link)
 
+        webdriver().shouldHave(urlContaining(urlPart), Duration.ofSeconds(10))
         val currentUrl = ProductsPage().getUrl()
         currentUrl shouldContain urlPart
     }
