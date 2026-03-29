@@ -2,7 +2,6 @@ package frontend.helpers
 
 import com.codeborne.selenide.Configuration
 import com.codeborne.selenide.Selenide
-import com.codeborne.selenide.Selenide.open
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 

@@ -1,6 +1,6 @@
 package frontend
 
-import frontend.components.list.ProductItem
+import frontend.components.HeaderComponent
 import frontend.helpers.BaseUiTest
 import frontend.pages.MainPage
 import frontend.pages.ProductsPage
@@ -25,7 +25,7 @@ class ProductsTest : BaseUiTest() {
     fun testProductsPageTitle() {
         MainPage()
             .openPage()
-            .header().clickLink("Products")
+            .navigateToHeader().clickNavLink(HeaderComponent.NavLink.PRODUCTS)
 
         ProductsPage().getTitle() shouldBe "All Products"
     }
@@ -40,8 +40,8 @@ class ProductsTest : BaseUiTest() {
 
         val productsPage = ProductsPage()
         MainPage()
-            .header()
-            .clickLink("Products")
+            .navigateToHeader()
+            .clickNavLink(HeaderComponent.NavLink.PRODUCTS)
 
         val firstProductsItem = productsPage.getProductsItems()[0]
 
@@ -65,8 +65,8 @@ class ProductsTest : BaseUiTest() {
 
         // Переходим на страницу всех товаров
         MainPage()
-            .header()
-            .clickLink("Products")
+            .navigateToHeader()
+            .clickNavLink(HeaderComponent.NavLink.PRODUCTS)
 
         // Получаем все товары со страницы Products
         val allProducts = ProductsPage().getProductsItems()

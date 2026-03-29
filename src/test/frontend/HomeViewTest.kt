@@ -48,7 +48,7 @@ class HomeViewTest : BaseUiTest() {
     fun `should display popular products list correctly using data items`() {
         val items = HomeViewPage()
             .openPage()
-            .getPopularItems().getItems()
+            .popularItems().getItems()
         
         // Check first product details from data object
         val espresso = items[0]
@@ -62,7 +62,7 @@ class HomeViewTest : BaseUiTest() {
     @DisplayName("Should display main image and welcome text")
     fun `should display main image and welcome text on home page`() {
         val page = HomeViewPage().openPage()
-        page.getMainImage().getElement().shouldBe(visible)
+        page.mainImage().getElement().shouldBe(visible)
         page.getMainImageText() shouldBe "Welcome to Brew & Bean"
     }
 

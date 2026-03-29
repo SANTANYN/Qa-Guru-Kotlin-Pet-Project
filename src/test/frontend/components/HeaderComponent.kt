@@ -1,11 +1,9 @@
 package frontend.components
 
-import com.codeborne.selenide.Condition.text
 import com.codeborne.selenide.Selenide.`$`
 import com.codeborne.selenide.Selenide.`$$`
-import frontend.components.popup.LoginPopup
 import frontend.components.popup.CreateUserPopup
-import frontend.helpers.findByOrFail
+import frontend.helpers.findByTestIdOrFail
 import frontend.helpers.Wrappers.Companion.byDataTestGroup
 import frontend.helpers.Wrappers.Companion.byDataTestId
 import io.qameta.allure.Step
@@ -16,8 +14,22 @@ import io.qameta.allure.Step
  */
 class HeaderComponent {
 
+    /** Пункты основной навигации в шапке — соответствуют `data-test-id` в `Header.vue`. */
+    enum class NavLink(val dataTestId: String, val label: String) {
+        PRODUCTS("nav-link-products", "Products"),
+        ORDERS("nav-link-orders", "Orders"),
+        CONTACT("nav-link-contact", "Contact"),
+        CART("nav-link-cart", "Cart"),
+        JOIN("nav-link-auth", "Join")
+    }
+
+    companion object {
+        /** Список всех основных пунктов навигации для обхода и проверок. */
+        val NAV_LINKS: List<NavLink> = NavLink.entries
+    }
+
     private val logoLink = `$`(byDataTestId("nav-link-home"))
-    private val titleText = `$`(".header .title") // "Brew & Bean"
+    private val titleText = `$`(".header .title")
     private val linksHeader = `$$`(byDataTestGroup("nav-link"))
     private val cartButton = `$`(byDataTestId("nav-link-cart"))
     private val joinButton = `$`(byDataTestId("nav-link-auth"))
@@ -30,12 +42,17 @@ class HeaderComponent {
         logoLink.click()
     }
 
-    @Step("Нажать на ссылку '{linkName}' в хедере")
-    fun clickLink(linkName: String) {
-        linksHeader.find(text(linkName)).click()
+    /**
+     * Клик по пункту навигации: поиск в коллекции `nav-link` по [NavLink.dataTestId] через [findByTestIdOrFail].
+     */
+    @Step("Нажать на пункт навигации '{link.label}' в хедере")
+    fun clickNavLink(link: NavLink) {
+        linksHeader.findByTestIdOrFail(link.dataTestId).click()
     }
 
-    fun getLinksTexts(): List<String> = linksHeader.texts()
+    /** Тексты основных пунктов навигации в порядке [NAV_LINKS]. */
+    fun getPrimaryNavLabels(): List<String> =
+        NAV_LINKS.map { linksHeader.findByTestIdOrFail(it.dataTestId).text() }
 
     @Step("Нажать на кнопку корзины")
     fun clickCart() {

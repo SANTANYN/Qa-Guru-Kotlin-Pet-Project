@@ -1,6 +1,5 @@
 package frontend.pages
 
-import com.codeborne.selenide.CollectionCondition
 import com.codeborne.selenide.Selenide.open
 import frontend.components.HeaderComponent
 import frontend.components.MainImageComponent
@@ -13,12 +12,6 @@ import io.qameta.allure.Step
 
 class HomeViewPage {
 
-    private val header = HeaderComponent()
-    private val mainImage = MainImageComponent()
-    private val productsContainer = ProductsContainerComponent()
-    private val popularProductsTitle = PopularProductsTitleComponent()
-    private val popularItems = ProductItemsList()
-
     @Step("Открыть главную страницу")
     fun openPage(): HomeViewPage {
         open("/")
@@ -26,20 +19,21 @@ class HomeViewPage {
     }
 
     @Step("Получить заголовок популярных товаров")
-    fun getPopularProductsTitleText(): String = popularProductsTitle.getText()
+    fun getPopularProductsTitleText(): String = PopularProductsTitleComponent().getText()
 
     @Step("Получить количество товаров")
-    fun getProductsCount(): Int = productsContainer.getCardsCollection().size()
+    fun getProductsCount(): Int = ProductsContainerComponent().getCardsCollection().size()
 
     @Step("Получить текст на главном изображении")
-    fun getMainImageText(): String = mainImage.getElement().text() ?: ""
+    fun getMainImageText(): String = MainImageComponent().getElement().text()
 
-    fun getMainImage() = mainImage
+    fun mainImage(): MainImageComponent = MainImageComponent()
 
-    fun header(): HeaderComponent = header
+    @Step("Перейти к компоненту шапки")
+    fun navigateToHeader(): HeaderComponent = HeaderComponent()
 
     @Step("Нажать Join в шапке")
-    fun clickJoin(): CreateUserPopup = header.clickJoin()
+    fun clickJoin(): CreateUserPopup = navigateToHeader().clickJoin()
 
     /**
      * Открывает диалог логина.
@@ -49,7 +43,7 @@ class HomeViewPage {
      */
     @Step("Открыть форму логина")
     fun openLoginForm(): HomeViewPage {
-        header.clickJoin()
+        navigateToHeader().clickJoin()
         CreateUserPopup().clickLoginLink()
         return this
     }
@@ -57,16 +51,16 @@ class HomeViewPage {
     @Step("Попап авторизации")
     fun authPopup(): LoginPopup = LoginPopup()
 
-    fun products(): ProductsContainerComponent = productsContainer
+    fun products(): ProductsContainerComponent = ProductsContainerComponent()
 
-    fun getPopularItems(): ProductItemsList = popularItems
-    
+    fun popularItems(): ProductItemsList = ProductItemsList()
+
     @Step("Получить список популярных товаров")
-    fun getPopularProducts(): List<frontend.components.list.ProductItem> = popularItems.getItems()
+    fun getPopularProducts(): List<frontend.components.list.ProductItem> = popularItems().getItems()
 
     @Step("Нажать на ссылку Products в хедере")
     fun clickProductsLink(): HomeViewPage {
-        header.clickLink("Products")
+        navigateToHeader().clickNavLink(HeaderComponent.NavLink.PRODUCTS)
         return this
     }
 }
