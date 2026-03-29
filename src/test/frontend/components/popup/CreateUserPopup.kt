@@ -1,7 +1,6 @@
 package frontend.components.popup
 
-import com.codeborne.selenide.Condition
-import com.codeborne.selenide.Condition.text
+import com.codeborne.selenide.Condition.visible
 import com.codeborne.selenide.Selenide.`$`
 import frontend.helpers.Wrappers.Companion.byDataTestId
 import io.qameta.allure.Step
@@ -17,6 +16,7 @@ class CreateUserPopup {
     private val submitButton = `$`(byDataTestId("create-submit"))
     private val errorText = `$`(byDataTestId("create-error"))
     private val loginLink = `$`(byDataTestId("create-login"))
+    private val title = `$`(byDataTestId("create-title"))
 
     @Step("Создать пользователя: username={username}, email={email}")
     fun createUser(username: String, email: String, password: String): CreateUserPopup {
@@ -34,4 +34,10 @@ class CreateUserPopup {
     }
 
     fun getErrorText(): String = errorText.text ?: ""
+
+    @Step("Диалог создания аккаунта открыт (заголовок виден)")
+    fun isOpen(): Boolean = title.`is`(visible)
+
+    @Step("Текст заголовка диалога создания аккаунта")
+    fun getTitleText(): String = title.text()
 }

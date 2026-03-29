@@ -16,7 +16,7 @@ import org.junit.jupiter.params.provider.CsvSource
 @Owner("mikhail")
 class NegativeLoginTest : BaseUiTest() {
 
-    @DisplayName("Negative login validation test")
+    @DisplayName("Negative login: validation and API error messages")
     @ParameterizedTest(name = "Email: {0}, Password: {1}, Error: {2}")
     @Story("Login validation")
     @CsvSource(
@@ -25,13 +25,15 @@ class NegativeLoginTest : BaseUiTest() {
         "'', 'password', 'Please enter email and password'",
         "'wrong@email.com', 'wrongpass', 'Invalid email or password'"
     )
-    fun `should show validation error on login`(email: String?, password: String?, expectedError: String) {
-        MainPage()
+    fun shouldShowValidationErrorOnLogin(email: String, password: String, expectedError: String) {
+        val loginPopup = MainPage()
             .openPage()
             .openLoginForm()
             .authPopup()
-            .fillLoginForm(email ?: "", password ?: "")
+            .fillLoginForm(email, password)
             .submitLogin()
-            .getErrorText(expectedError) shouldBe expectedError
+
+        val actualError = loginPopup.getErrorText(expectedError)
+        actualError shouldBe expectedError
     }
 }

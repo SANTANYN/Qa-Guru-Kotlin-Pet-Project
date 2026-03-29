@@ -1,6 +1,6 @@
 package frontend.components.list
 
-import com.codeborne.selenide.CollectionCondition
+import com.codeborne.selenide.Condition.visible
 import com.codeborne.selenide.Selenide.`$$`
 import com.codeborne.selenide.SelenideElement
 import frontend.helpers.toPrice
@@ -38,6 +38,9 @@ data class ProductItem(
         result = 31 * result + price.hashCode()
         return result
     }
+
+    fun areInteractiveControlsVisible(): Boolean =
+        image.`is`(visible) && btnIncrement.`is`(visible) && btnDecrement.`is`(visible)
 }
 
 /**

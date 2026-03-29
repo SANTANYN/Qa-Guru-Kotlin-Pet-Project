@@ -4,7 +4,7 @@ import com.codeborne.selenide.Selenide.`$`
 import frontend.components.list.ProductItemsList
 import io.qameta.allure.Step
 
-class ProductsPage {
+class ProductsPage : BasePage() {
 
     private val productsTitle = `$`("[data-test-id=\"products-title\"]")
 

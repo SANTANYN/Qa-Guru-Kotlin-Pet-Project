@@ -1,7 +1,10 @@
 package frontend.pages
 
+import com.codeborne.selenide.Condition.visible
+import com.codeborne.selenide.Selenide.`$`
 import com.codeborne.selenide.Selenide.open
 import frontend.components.HeaderComponent
+import frontend.helpers.Wrappers.Companion.byDataTestId
 import frontend.components.MainImageComponent
 import frontend.components.list.ProductsContainerComponent
 import frontend.components.PopularProductsTitleComponent
@@ -10,7 +13,7 @@ import frontend.components.popup.CreateUserPopup
 import frontend.components.popup.LoginPopup
 import io.qameta.allure.Step
 
-class HomeViewPage {
+class HomeViewPage : BasePage() {
 
     @Step("Открыть главную страницу")
     fun openPage(): HomeViewPage {
@@ -63,4 +66,7 @@ class HomeViewPage {
         navigateToHeader().clickNavLink(HeaderComponent.NavLink.PRODUCTS)
         return this
     }
+
+    @Step("Кнопка Checkout в открытой панели корзины отображается")
+    fun isCartCheckoutButtonVisible(): Boolean = `$`(byDataTestId("cart-checkout")).`is`(visible)
 }

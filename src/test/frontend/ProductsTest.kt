@@ -48,10 +48,8 @@ class ProductsTest : BaseUiTest() {
         // Стандартные проверки равенства данных (через объекты Kotest благодаря переопределенному equals)
         firstProductsItem shouldBeEqual firstPopularProduct
 
-        // Дополнительная проверка, что все связанные веб-элементы присутствуют и отображаются
-        firstProductsItem.image.isDisplayed shouldBe true
-        firstProductsItem.btnIncrement.isDisplayed shouldBe true
-        firstProductsItem.btnDecrement.isDisplayed shouldBe true
+        val controlsVisible = firstProductsItem.areInteractiveControlsVisible()
+        controlsVisible shouldBe true
     }
 
     @Test

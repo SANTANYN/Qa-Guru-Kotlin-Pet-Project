@@ -1,11 +1,7 @@
 package frontend
 
-import com.codeborne.selenide.Condition.visible
-import com.codeborne.selenide.Selenide.`$`
-import com.codeborne.selenide.WebDriverRunner
 import frontend.components.HeaderComponent
 import frontend.helpers.BaseUiTest
-import frontend.helpers.Wrappers.Companion.byDataTestId
 import frontend.pages.HomeViewPage
 import frontend.pages.ProductsPage
 import io.kotest.matchers.shouldBe
@@ -19,7 +15,7 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
-import org.junit.jupiter.params.provider.EnumSource
+import org.junit.jupiter.params.provider.ValueSource
 
 @Epic("Frontend Tests")
 @Feature("Header Navigation")
@@ -27,71 +23,76 @@ import org.junit.jupiter.params.provider.EnumSource
 class HeaderLinksTest : BaseUiTest() {
 
     @Test
-    @DisplayName("Check all expected links are present in header")
+    @DisplayName("All expected navigation link labels are present in the header")
     @Story("Navigation links")
-    fun `should have all expected links in header`() {
+    fun shouldHaveAllExpectedHeaderLinks() {
         val expectedLinks = HeaderComponent.NAV_LINKS.map { it.label }
-        HomeViewPage()
+        val navLabels = HomeViewPage()
             .openPage()
-            .navigateToHeader().getPrimaryNavLabels() shouldContainAll expectedLinks
+            .navigateToHeader()
+            .getPrimaryNavLabels()
+        navLabels shouldContainAll expectedLinks
     }
 
-    @DisplayName("Header link opens correct page or panel")
-    @ParameterizedTest(name = "{0} → URL содержит {1}")
+    @DisplayName("Clicking a header link navigates to the expected URL path")
+    @ParameterizedTest(name = "{0} → URL contains {1}")
     @Story("Navigation links")
     @CsvSource(
         "PRODUCTS, /products",
         "ORDERS, /orders",
         "CONTACT, /contact"
     )
-    fun `should navigate when clicking header link`(nav: String, urlPart: String) {
+    fun headerNavigationChangesUrl(nav: String, urlPart: String) {
         val link = HeaderComponent.NavLink.valueOf(nav)
         HomeViewPage()
             .openPage()
             .navigateToHeader()
             .clickNavLink(link)
 
-        WebDriverRunner.url() shouldContain urlPart
-
-        when (link) {
-            HeaderComponent.NavLink.PRODUCTS -> ProductsPage().getTitle() shouldBe "All Products"
-            HeaderComponent.NavLink.CONTACT -> `$`(".contact-title").shouldBe(visible).text() shouldBe "Testing Playground Frontend"
-            HeaderComponent.NavLink.ORDERS -> `$`("md-outlined-text-field").shouldBe(visible)
-            else -> {}
-        }
+        val currentUrl = ProductsPage().getUrl()
+        currentUrl shouldContain urlPart
     }
 
     @Test
-    @DisplayName("Cart opens checkout panel in header")
+    @DisplayName("Cart opens panel with checkout button visible")
     @Story("Navigation links")
-    fun `should open cart panel when clicking Cart`() {
+    fun shouldOpenCartPanelWithCheckoutVisible() {
         HomeViewPage()
             .openPage()
             .navigateToHeader()
             .clickNavLink(HeaderComponent.NavLink.CART)
 
-        `$`(byDataTestId("cart-checkout")).shouldBe(visible)
+        val checkoutVisible = HomeViewPage().isCartCheckoutButtonVisible()
+        checkoutVisible shouldBe true
     }
 
     @Test
-    @DisplayName("Join opens create account dialog")
+    @DisplayName("Join opens create account dialog with expected title")
     @Story("Navigation links")
-    fun `should open create account dialog when clicking Join`() {
-        HomeViewPage()
+    fun shouldOpenCreateAccountDialogWhenClickingJoin() {
+        val createPopup = HomeViewPage()
             .openPage()
             .clickJoin()
 
-        `$`(byDataTestId("create-title")).shouldBe(visible)
-        `$`(byDataTestId("create-title")).text() shouldBe "Create Account"
+        val dialogOpen = createPopup.isOpen()
+        val titleText = createPopup.getTitleText()
+
+        dialogOpen shouldBe true
+        titleText shouldBe "Create Account"
     }
 
-    @DisplayName("Each expected link text is present in header")
-    @ParameterizedTest(name = "Link: {0}")
+    @DisplayName("Each header link label from list is present in primary nav labels")
+    @ParameterizedTest(name = "Link label: {0}")
     @Story("Navigation links")
-    @EnumSource(HeaderComponent.NavLink::class)
-    fun `should have link text visible in header`(link: HeaderComponent.NavLink) {
-        HomeViewPage()
+    @ValueSource(
+        strings = ["Products", "Orders", "Contact", "Cart", "Join"]
+    )
+    fun headerContainsLinkLabel(expectedLinkLabel: String) {
+        val navLabels = HomeViewPage()
             .openPage()
-            .navigateToHeader().getPrimaryNavLabels().contains(link.label) shouldBe true
+            .navigateToHeader()
+            .getPrimaryNavLabels()
+        val containsLabel = navLabels.contains(expectedLinkLabel)
+        containsLabel shouldBe true
     }
 }

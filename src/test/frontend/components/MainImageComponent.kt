@@ -1,7 +1,6 @@
 package frontend.components
 
-import com.codeborne.selenide.Condition
-import com.codeborne.selenide.Condition.text
+import com.codeborne.selenide.Condition.visible
 import com.codeborne.selenide.Selenide.`$`
 import io.qameta.allure.Step
 
@@ -18,4 +17,7 @@ class MainImageComponent {
 
     @Step("Получить текст на главном изображении")
     fun getText(): String = mainImageText.text()
+
+    @Step("Главное изображение отображается")
+    fun isDisplayed(): Boolean = mainImage.`is`(visible)
 }
