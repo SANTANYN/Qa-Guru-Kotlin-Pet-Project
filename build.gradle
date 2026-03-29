@@ -44,7 +44,13 @@ test {
 dependencies {
     // JUnit
     implementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: '6.0.2'
+    implementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: '6.0.2'
     implementation group: 'org.junit.platform', name: 'junit-platform-launcher', version: '6.0.2'
+
+    // Backend API tests (Retrofit + OkHttp)
+    implementation 'com.squareup.retrofit2:retrofit:2.11.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.11.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
 
     // Frontend
     implementation group: 'com.codeborne', name: 'selenide', version: '7.14.0'
@@ -63,7 +69,7 @@ dependencies {
 
 sourceSets {
     test {
-        kotlin.srcDirs("src/test/api", "src/test/frontend")
+        kotlin.srcDirs("src/test/backend", "src/test/frontend")
         resources {
             srcDirs = ["src/test/frontend/resources"]
         }

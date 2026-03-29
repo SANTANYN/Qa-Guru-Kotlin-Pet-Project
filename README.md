@@ -69,6 +69,8 @@ make down
 make test
 ```
 
+Перед прогоном поднимите сервисы, от которых зависят тесты (frontend для UI, backend для API). HTTP-тесты авторизации и создания пользователя: [src/test/backend/README.md](src/test/backend/README.md) (`./gradlew test --tests 'backend.*'` при запущенном backend на порту 1111).
+
 ## Команды Makefile
 
 | Команда | Описание |
