@@ -1,0 +1,5 @@
+{
+  "selenideBaseUrl": "http://localhost:4000",
+  "attachScreenshotsOnFailure": true,
+  "verboseLogging": false
+}

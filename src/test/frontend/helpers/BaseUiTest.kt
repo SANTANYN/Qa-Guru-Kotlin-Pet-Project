@@ -9,6 +9,8 @@ open class BaseUiTest {
 
     companion object {
         init {
+            // Browser и baseUrl также выставляет [frontend.listeners.TestListener] при старте плана;
+            // здесь — fallback, если класс загрузился до listener или для тестов без SPI.
             Configuration.browser = DriverProvider::class.java.name
             Configuration.baseUrl = System.getProperty("selenide.baseUrl", "http://localhost:4000")
             Configuration.timeout = 15_000
@@ -19,7 +21,9 @@ open class BaseUiTest {
 
     @BeforeEach
     fun setup() {
-        // No automatic page opening to keep steps explicit in tests
+        // Подтянуть baseUrl после TestListener / демо-тестов, меняющих System properties.
+        Configuration.baseUrl = System.getProperty("selenide.baseUrl", Configuration.baseUrl)
+        Configuration.browser = DriverProvider::class.java.name
     }
 
     @AfterEach

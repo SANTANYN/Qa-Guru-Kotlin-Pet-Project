@@ -1,7 +1,7 @@
 # Qa-Guru Kotlin Pet Project - Makefile
 # Backend: http://localhost:1111 | Frontend: http://localhost:4000
 
-.PHONY: help init build-backend build-frontend build run-backend run-frontend run restart stop-backend stop-frontend stop down test
+.PHONY: help init build-backend build-frontend build run-backend run-frontend dev-frontend frontend backend run restart stop-backend stop-frontend stop down test
 
 # По умолчанию — показать справку
 help:
@@ -17,7 +17,9 @@ help:
 	@echo ""
 	@echo "Запуск (run):"
 	@echo "  make run-backend    - Запустить backend (Docker, порт 1111)"
-	@echo "  make run-frontend   - Запустить frontend (Docker, порт 4000)"
+	@echo "  make run-frontend   - Запустить frontend (Docker, порт 4000; нужен запущенный Docker)"
+	@echo "  make dev-frontend   - Vite dev-сервер на :4000 без Docker (npm install при необходимости)"
+	@echo "  make frontend       - То же что run-frontend (короткий алиас)"
 	@echo "  make run            - Запустить backend и frontend"
 	@echo "  make restart        - Остановить контейнеры и запустить заново"
 	@echo ""
@@ -49,6 +51,15 @@ run-backend:
 
 run-frontend:
 	cd src/main/web && docker build -t romsper/testing-playground-frontend:latest . && docker compose up -d
+
+# Тот же порт, что в конфиге тестов (selenide.baseUrl=http://localhost:4000)
+dev-frontend:
+	cd src/main/web && npm install && npm run dev -- --host 0.0.0.0 --port 4000
+
+# Алиас: `make frontend` — частая опечатка вместо run-frontend
+frontend: run-frontend
+
+backend: run-backend
 
 run: stop run-backend run-frontend
 	@echo ""

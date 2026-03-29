@@ -13,3 +13,34 @@
 ## Ресурсы тестов (`src/test/frontend/resources`)
 
 Тестовые ресурсы (в т.ч. `META-INF/services` для JUnit `TestExecutionListener`) лежат рядом с фронтенд-тестами. В `build.gradle` для `sourceSets.test` задано `resources.srcDirs = ["src/test/frontend/resources"]`.
+
+## Конфигурация тестов (properties / JSON) и `System.getProperty`
+
+Загрузка выполняется в [TestConfig](config/TestConfig.kt) при первом вызове `TestConfig.get()` / [Config.get()](config/Config.kt) (тонкая обёртка «как на скрине» курса; listener вызывает `Config.get()`). Первый вызов — в [TestListener](listeners/TestListener.kt) при старте плана.
+
+**Отличие от эталона лекции:** на занятиях часто один ключ `System.getProperty("env_config", "/example.properties")` и класс `Properties`; здесь основные ключи — `frontend.test.json` / `frontend.test.properties`, плюс **алиас** `env_config` с тем же смыслом (путь к `.properties` на classpath), чтобы совпадать с разбором ДЗ и скринами.
+
+**Приоритет источника:**
+
+1. `frontend.test.json` — путь к JSON на classpath, например `/config/frontend-test.json`
+2. иначе `frontend.test.properties` — путь к `.properties` на classpath
+3. иначе `env_config` — путь к `.properties` на classpath (как на лекции)
+4. иначе дефолт: [`config/frontend-test.properties`](resources/config/frontend-test.properties)
+
+**Примеры Gradle:**
+
+```bash
+./gradlew test -Dfrontend.test.properties=/config/frontend-test.properties
+./gradlew test -Dfrontend.test.json=/config/frontend-test.json
+./gradlew test -Denv_config=/config/frontend-test.properties
+```
+
+Ключи в `.properties`: `selenide.baseUrl`, `screenshots.on.failure` (`true`/`false`), `verbose.logging`.  
+JSON: поля `selenideBaseUrl`, `attachScreenshotsOnFailure`, `verboseLogging` (см. [`frontend-test.json`](resources/config/frontend-test.json)).
+
+После загрузки listener выставляет `System.setProperty("selenide.baseUrl", ...)` и `Configuration.baseUrl`.
+
+## `TestExecutionListener` и `TestWatcher`
+
+- Глобальный listener: [TestListener.kt](listeners/TestListener.kt), регистрация через `META-INF/services/org.junit.platform.launcher.TestExecutionListener`. Старт каждого теста логируется всегда (`|--- Test started: …`); расширенный вывод — при `verbose.logging=true`. Скриншот в Allure при падении не делается для псевдо-теста с `displayName == "JUnit Jupiter"` (как на скрине курса); вложение — `@Attachment(value = "{name}", …)` с именем по умолчанию `SCREENSHOT`.
+- [TestWatcherExtension.kt](listeners/TestWatcherExtension.kt) — демо Jupiter `TestWatcher`; подключение `@ExtendWith(TestWatcherExtension::class)`, минимальный пример в [ConfigAndWatcherDemoTest.kt](ConfigAndWatcherDemoTest.kt) (один позитивный тест на `Config.get()` + `env_config`; при прохождении срабатывает `testSuccessful`).
